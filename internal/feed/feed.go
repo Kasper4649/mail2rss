@@ -13,7 +13,7 @@ func parseFeedItem(data string) ([]*feeds.Item, error) {
 		items = append(items, &feeds.Item{
 			Title:       e.Get("subject").String(),
 			Description: e.Get("html").String(),
-			Created:     time.UnixMilli(e.Get("timestamp").Int()),
+			Created:     unixMilli(e.Get("timestamp").Int()),
 			Author: &feeds.Author{
 				Name: e.Get("from").String(),
 			},
@@ -49,4 +49,8 @@ func MakeRSS(data, tag string) (string, error) {
 		return "", err
 	}
 	return rss, nil
+}
+
+func unixMilli(msec int64) time.Time {
+	return time.Unix(msec/1e3, (msec%1e3)*1e6)
 }
