@@ -3,6 +3,7 @@ package feed
 import (
 	"github.com/gorilla/feeds"
 	"github.com/tidwall/gjson"
+	"mail2rss/internal/config"
 	"time"
 )
 
@@ -34,7 +35,7 @@ func MakeRSS(data, tag string) (string, error) {
 	feed := &feeds.Feed{
 		Title: tag + " Mail RSS",
 		Link: &feeds.Link{
-			Href: "",
+			Href: config.DeploySite,
 		},
 		Description: tag + " Mail RSS",
 		Copyright:   "https://github.com/Kasper4649/mail2rss",

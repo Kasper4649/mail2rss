@@ -5,12 +5,11 @@ import (
 	"mail2rss/internal/config"
 	"mail2rss/internal/feed"
 	"net/http"
-	"strings"
 )
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 	config.InitConfig()
-	tag := strings.TrimPrefix(r.URL.Path, "/")
+	tag := r.URL.Query().Get("tag")
 	resp, err := getMail(tag)
 	if err != nil {
 		writeError(w, err)
