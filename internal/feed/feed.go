@@ -7,11 +7,11 @@ import (
 	"time"
 )
 
-func parseFeedItem(data string) ([]*feeds.Item, error) {
-	var items []*feeds.Item
+func parseFeedItem(data string) ([]feeds.Item, error) {
+	var items []feeds.Item
 	emails := gjson.Get(data, "emails").Array()
 	for _, e := range emails {
-		items = append(items, &feeds.Item{
+		items = append(items, feeds.Item{
 			Title:       e.Get("subject").String(),
 			Description: e.Get("html").String(),
 			Created:     unixMilli(e.Get("timestamp").Int()),
@@ -41,8 +41,8 @@ func MakeRSS(data, tag string) (string, error) {
 		Copyright:   "https://github.com/Kasper4649/mail2rss",
 		Created:     time.Now(),
 	}
-	for _, v := range items {
-		feed.Add(v)
+	for i := range items {
+		feed.Add(&items[i])
 	}
 
 	rss, err := feed.ToAtom()
